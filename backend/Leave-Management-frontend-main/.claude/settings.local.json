@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"d:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_mouha\" /b)",
+      "Bash(Get-ChildItem -Path \"d:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_mouha\\\\Leave-Management-frontend-main\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Read(//d/iTeam/thirdYear/PFA/projet_mouha/leave-management-microservices/**)",
+      "PowerShell(netstat -ano)"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd \"d:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_mouha\\\\leave-management-microservices\" && find . -type f -name \"*.vue\" -o -name \"*.jsx\" -o -name \"*.tsx\" -o -name \"*.html\" | grep -i \"leave\\\\|demande\\\\|request\" | head -20)",
+      "Read(//d/iTeam/thirdYear/PFA/projet_mouha/leave-management-microservices/**)",
+      "Bash(find \"d:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_mouha\" -type d -name \"frontend\" -o -type d -name \"web\" -o -type d -name \"client\" 2>/dev/null | head -10)",
+      "Read(//d/iTeam/thirdYear/PFA/projet_mouha/**)",
+      "Read(//d/iTeam/thirdYear/PFA/projet_pfaa/leave-management-microservices/**)",
+      "PowerShell(Set-Location \"D:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_pfaa\\\\leave-management-microservices\"; $timeout = 90; $elapsed = 0; while \\($elapsed -lt $timeout\\) { $status = docker compose ps --format json 2>$null | ConvertFrom-Json; $notHealthy = $status | Where-Object { $_.Service -in @\\('employee-db','leave-db','kafka'\\) -and $_.Health -ne 'healthy' -and $_.Health -ne '' }; if \\(-not $notHealthy -or \\($status | Where-Object {$_.Service -eq 'employee-db'}\\).Health -eq 'healthy'\\) { break }; Start-Sleep -Seconds 5; $elapsed += 5 }; docker compose ps)",
+      "PowerShell(Set-Location \"D:\\\\iTeam\\\\thirdYear\\\\PFA\\\\projet_pfaa\\\\leave-management-microservices\"; $timeout = 90; $elapsed = 0; while \\($elapsed -lt $timeout\\) { $h = \\(docker inspect --format='{{.State.Health.Status}}' kafka 2>$null\\); if \\($h -eq 'healthy'\\) { break }; Start-Sleep -Seconds 5; $elapsed += 5 }; Write-Output \"kafka health: $h after $elapsed s\")",
+      "PowerShell(foreach \\($port in 8081,8082,8085\\) { $conn = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1; if \\($conn\\) { $p = Get-Process -Id $conn.OwningProcess; Write-Output \"Port $port : LISTENING \\(PID $\\($p.Id\\), $\\($p.ProcessName\\), started $\\($p.StartTime\\)\\)\" } else { Write-Output \"Port $port : free\" } })",
+      "PowerShell($timeout = 90; $elapsed = 0; $ok = $false; while \\($elapsed -lt $timeout\\) { $conn = Get-NetTCPConnection -LocalPort 8082 -State Listen -ErrorAction SilentlyContinue; if \\($conn\\) { $ok = $true; break }; Start-Sleep -Seconds 5; $elapsed += 5 }; Write-Output \"leave-service listening: $ok after $elapsed s\")",
+      "PowerShell(Stop-Process -Id 17712 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-NetTCPConnection -LocalPort 8082 -State Listen -ErrorAction SilentlyContinue)"
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # Employee Service routes
+        - id: employee-service-employees
+          uri: lb://employee-service
+          predicates:
+            - Path=/api/employees/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: employee-service-departments
+          uri: lb://employee-service
+          predicates:
+            - Path=/api/departments/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        # Leave Service routes
+        - id: leave-service-types
+          uri: lb://leave-service
+          predicates:
+            - Path=/api/leave-types/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: leave-service-requests
+          uri: lb://leave-service
+          predicates:
+            - Path=/api/leave-requests/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+        - id: leave-service-balances
+          uri: lb://leave-service
+          predicates:
+            - Path=/api/leave-balances/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration-ms: 86400000  # 24 heures
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.leavemanagement: DEBUG
+    org.springframework.cloud.gateway: INFO
