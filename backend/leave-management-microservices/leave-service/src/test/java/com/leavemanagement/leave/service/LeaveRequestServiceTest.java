@@ -134,7 +134,7 @@ class LeaveRequestServiceTest {
 
         assertThatThrownBy(() -> leaveRequestService.createRequest(createRequest))
                 .isInstanceOf(BusinessException.class)
-                .hasMessageContaining("chevauchement");
+                .hasMessageContaining("existe déjà sur cette période");
     }
 
     @Test

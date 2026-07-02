@@ -1,0 +1,136 @@
+// ── Auth Types ───────────────────────────────────────────────
+export type UserRole = 'ADMIN' | 'MANAGER' | 'EMPLOYEE'
+
+export interface AuthUser {
+  token: string
+  username: string
+  role: UserRole
+  employeeId: number | null
+  fullName: string
+}
+
+// ── Shared Types ─────────────────────────────────────────────
+export interface Department {
+  id: number
+  name: string
+  description?: string
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface Employee {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  jobTitle?: string
+  hireDate?: string
+  department?: Department
+  manager?: { id: number }
+}
+
+export interface LeaveType {
+  id: number
+  name: string
+  description?: string
+  paidLeave: boolean
+  defaultDaysPerYear: number
+  colorCode?: string
+  requiresDocumentation: boolean
+  canCarryOver: boolean
+  maxCarryOverDays: number
+  minNoticeDays: number
+  allowHalfDay: boolean
+  active?: boolean
+}
+
+export type LeaveStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED'
+
+export interface LeaveRequest {
+  id: number
+  employeeId: number
+  leaveTypeId: number
+  leaveTypeName?: string
+  leaveTypeColor?: string
+  startDate: string
+  endDate: string
+  halfDayStart?: boolean
+  halfDayEnd?: boolean
+  reason?: string
+  isEmergency?: boolean
+  contactInfo?: string
+  status: LeaveStatus
+  numberOfDays?: number
+  managerComment?: string
+  createdAt?: string
+  // enriched client-side from the employees/leaveTypes lists (backend only returns the ids above)
+  employee?: Employee
+  leaveType?: LeaveType
+}
+
+export interface LeaveRequestDto {
+  employeeId: number
+  leaveTypeId: number
+  startDate: string
+  endDate: string
+  halfDayStart?: boolean
+  halfDayEnd?: boolean
+  reason?: string
+  isEmergency?: boolean
+  contactInfo?: string
+}
+
+export interface LeaveBalance {
+  id: number
+  employeeId: number
+  leaveTypeId: number
+  leaveTypeName?: string
+  leaveTypeColor?: string
+  year: number
+  totalDays?: number
+  allocatedDays?: number
+  usedDays?: number
+  remainingDays?: number
+  carriedOverDays?: number
+  lastUpdated?: string
+  // enriched client-side from the employees/leaveTypes lists (backend only returns the ids above)
+  employee?: Employee
+  leaveType?: LeaveType
+}
+
+// ── Create / Update DTOs ───────────────────────────────────────────────────────
+export interface DepartmentDto {
+  name: string
+  description?: string
+}
+
+export interface EmployeeDto {
+  firstName: string
+  lastName: string
+  email: string
+  jobTitle?: string
+  hireDate?: string
+  department?: { id: number }
+}
+
+export interface LeaveTypeDto {
+  name: string
+  description?: string
+  paidLeave: boolean
+  defaultDaysPerYear: number
+  colorCode?: string
+  requiresDocumentation: boolean
+  canCarryOver: boolean
+  maxCarryOverDays: number
+  minNoticeDays: number
+  allowHalfDay: boolean
+  active?: boolean
+}
+
+// (supprimé, doublon corrigé plus haut)
+
+export interface InitBalanceDto {
+  employeeId: number
+  leaveTypeId: number
+  year: number
+}
